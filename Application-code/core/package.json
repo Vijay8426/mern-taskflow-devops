@@ -7,7 +7,9 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "pre-commit": "npm run typecheck && npm run build"
+    "pre-commit": "npm run test && npm run typecheck && npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -25,9 +27,12 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.5",
+    "@types/supertest": "^7.2.1",
     "nodemon": "^3.1.14",
     "pino-pretty": "^13.2.0",
+    "supertest": "^7.3.1",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
   }
 }
