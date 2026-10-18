@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import logger from "./logger";
 
 export async function connectDB(): Promise<void> {
   const uri = process.env.MONGODB_URI;
@@ -11,5 +12,5 @@ export async function connectDB(): Promise<void> {
     serverSelectionTimeoutMS: 5000,
   });
 
-  console.log("MongoDB connected");
+  logger.info("MongoDB connected");
 }
