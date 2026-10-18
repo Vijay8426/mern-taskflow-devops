@@ -1,9 +1,11 @@
 import pino from "pino";
 
+import { env } from "./env";
+
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 const logger = pino({
-  level: process.env.LOG_LEVEL || (isDevelopment ? "debug" : "info"),
+  level: env.logLevel || (isDevelopment ? "debug" : "info"),
   redact: {
     paths: [
       "req.headers.authorization",

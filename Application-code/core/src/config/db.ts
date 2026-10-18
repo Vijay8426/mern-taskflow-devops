@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
 import logger from "./logger";
+import { env } from "./env";
+
 
 export async function connectDB(): Promise<void> {
-  const uri = process.env.MONGODB_URI;
+  const uri = env.mongoUri;
 
   if (!uri) {
     throw new Error("MONGODB_URI is not configured");

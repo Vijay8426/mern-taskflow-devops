@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 import express, {
   ErrorRequestHandler,
   Request,
@@ -9,6 +7,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 import { connectDB } from "./config/db";
+import { env } from "./config/env";
 import taskRoutes from "./routes/taskRoutes";
 import logger from "./config/logger";
 import pinoHttp from "pino-http";
@@ -101,7 +100,7 @@ const errorHandler: ErrorRequestHandler = (
 
 app.use(errorHandler);
 
-const port = Number(process.env.PORT) || 5000;
+const port = env.port;
 
 async function startServer(): Promise<void> {
   await connectDB();
