@@ -77,14 +77,10 @@ This project demonstrates practical DevOps skills:
 
 ## Architecture
 
-```{=html}
-<!-- ARCHITECTURE DIAGRAM TEMPLATE: Paste the project architecture diagram below. Keep this section as the high-level architecture reference. -->
-```
+
 ![alt text](<MERN TaskFlow Runtime and CICD Architecture.png>)
 
-```{=html}
-<!-- END ARCHITECTURE DIAGRAM TEMPLATE -->
-```
+
 ## Application Features
 
 The intended application scope is deliberately small:
