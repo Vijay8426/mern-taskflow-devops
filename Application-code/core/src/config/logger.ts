@@ -1,8 +1,10 @@
+
 import pino from "pino";
-import { env } from "./env";
+
+const isDevelopment = process.env.NODE_ENV === "development";
 
 const logger = pino({
-  level: env.logLevel,
+  level: process.env.LOG_LEVEL ?? "info",
   redact: {
     paths: [
       "password",
@@ -13,7 +15,7 @@ const logger = pino({
     ],
     censor: "[REDACTED]",
   },
-  ...(env.nodeEnv === "development" && {
+  ...(isDevelopment && {
     transport: {
       target: "pino-pretty",
       options: {
