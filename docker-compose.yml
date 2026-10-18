@@ -1,0 +1,73 @@
+services:
+  # Database
+  db:
+    image: mongo:8
+    restart: unless-stopped
+    volumes:
+      - taskflow-mongo-data:/data/db
+    networks:
+      - taskflow-network
+    healthcheck:
+      test:
+        - CMD
+        - mongosh
+        - --quiet
+        - --eval
+        - "db.adminCommand('ping').ok"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Backend
+  core:
+    image: taskflow-core:local
+    build:
+      context: ./Application-code/core
+      dockerfile: Dockerfile
+    env_file:
+      - ./Application-code/core/.env
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_HOST_PORT:-8000}:8000"
+    networks:
+      - taskflow-network
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # Frontend
+  web:
+    image: taskflow-web:local
+    build:
+      context: ./Application-code/web
+      dockerfile: Dockerfile
+    env_file:
+      - ./Application-code/web/.env
+    environment:
+      API_BASE_URL: ${API_BASE_URL:-http://localhost:8000/api}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_HOST_PORT:-8080}:8080"
+    networks:
+      - taskflow-network
+    depends_on:
+      core:
+        condition: service_healthy
+
+volumes:
+  taskflow-mongo-data:
+
+networks:
+  taskflow-network:
+    driver: bridge
