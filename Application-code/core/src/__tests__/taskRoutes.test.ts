@@ -1,13 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import request from "supertest";
 
-vi.mock("../config/logger", () => ({
-  default: {
-    info: vi.fn(),
-    warn: vi.fn(),
-    error: vi.fn(),
-    fatal: vi.fn(),
-  },
+
+vi.mock("pino-http", () => ({
+  default: () => (_req: unknown, _res: unknown, next: () => void) =>
+    next(),
 }));
 
 vi.mock("../models/Task", () => ({
