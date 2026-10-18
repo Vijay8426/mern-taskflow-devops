@@ -2,12 +2,13 @@
   "name": "core",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "dev": "tsx watch src/server.ts",
-  "build": "tsc",
-  "start": "node dist/server.js",
-  "typecheck": "tsc --noEmit"
-},
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "pre-commit": "npm run typecheck && npm run build"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,13 +17,16 @@
     "cors": "^2.8.6",
     "dotenv": "^18.0.8",
     "express": "^5.3.0",
-    "mongoose": "^9.11.2"
+    "mongoose": "^9.11.2",
+    "pino": "^10.4.0",
+    "pino-http": "^11.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.5",
     "nodemon": "^3.1.14",
+    "pino-pretty": "^13.2.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }
