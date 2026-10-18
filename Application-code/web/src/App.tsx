@@ -25,9 +25,36 @@ export default function App() {
     }
   }, []);
 
-  useEffect(() => {
-    void loadTasks();
-  }, [loadTasks]);
+useEffect(() => {
+  let cancelled = false;
+
+  async function fetchInitialTasks() {
+    try {
+      const result = await taskService.getAll();
+
+      if (!cancelled) {
+        setTasks(result);
+        setError("");
+      }
+    } catch (err) {
+      if (!cancelled) {
+        setError(
+          err instanceof Error ? err.message : "Unable to load tasks",
+        );
+      }
+    } finally {
+      if (!cancelled) {
+        setLoading(false);
+      }
+    }
+  }
+
+  void fetchInitialTasks();
+
+  return () => {
+    cancelled = true;
+  };
+}, []);
 
   async function addTask(title: string): Promise<void> {
     await taskService.create({ title });
